@@ -1,0 +1,49 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v3.2.json",
+  "data": {
+    "name": "foo",
+    "url": {
+      "index": "kibana_sample_data_ecommerce",
+      "body": {
+          "aggs": {
+            "date": {
+              "date_histogram": {
+                "field": "order_date",
+                "interval": "day"
+              },
+              "aggs": {
+                "gender": {
+                  "terms": {"field": "customer_gender"},
+                  "aggs": {
+                    "cont": {
+                      "terms": {"field": "geoip.continent_name"},
+                      "aggs": {
+                        "total": {
+                          "sum": {"field": "taxful_total_price"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    "format": {"property": "aggregations.date.buckets"},
+    "transform": [
+      {"type": "flatten", "fields": ["gender.buckets"], "as": ["foo"]},
+      {"type": "flatten", "fields": ["foo.cont.buckets"], "as": ["bar"]},
+      {"type": "project", "fields": ["bar.key", "foo.key", "bar.total.value", "key"], "as": ["continent", "gender", "value", "orderdate"]}
+    ],
+    "size": 0
+  },
+  "signals": [
+  ],
+  "scales": [
+  ],
+  "axes": [
+  ],
+  "marks": [
+  ]
+}
