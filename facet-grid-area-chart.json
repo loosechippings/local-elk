@@ -39,15 +39,17 @@
     "size": 0
   },
   "signals": [
-    {"name": "pad", "value": "5"}
-    {"name": "cellWidth", "update": "width / 2 - (2 * pad)"},
-    {"name": "cellHeight", "update": "height / 5 - (2 * pad)"}
+    {"name": "pad", "value": "5"},
+    {"name": "w", "value": 800},
+    {"name": "h", "value": 500},
+    {"name": "cellWidth", "update": "w / 2 - (2 * pad)", "react": true},
+    {"name": "cellHeight", "update": "h / 5 - (2 * pad)", "react": true}
   ],
   "scales": [
-    {"name": "genderScale", "type": "band", "domain": {"data": "foo", "field": "gender"}, "range": [0, {"signal": "width"}]},
-    {"name": "continentScale", "type": "band", "domain": {"data": "foo", "field": "continent"}, "range": [{"signal": "height"}, 0]},
-    {"name": "xscale", "type": "time", "domain": {"data": "foo", "field": "orderdate"}, "range": [0, {"signal": "cellWidth"}]},
-    {"name": "yscale", "type": "linear", "domain": {"data": "foo", "field": "value"}, "range": [{"signal": "cellHeight"}, 0]}
+    {"name": "genderScale", "type": "band", "domain": {"data": "foo", "field": "gender"}, "range": [0, {"signal": "width"}], "padding": 0.05},
+    {"name": "continentScale", "type": "band", "domain": {"data": "foo", "field": "continent"}, "range": [{"signal": "height"}, 0], "padding": 0.1},
+    {"name": "xscale", "type": "time", "domain": {"data": "foo", "field": "orderdate"}, "range": [0, {"signal": "bandwidth('genderScale')"}]},
+    {"name": "yscale", "type": "linear", "domain": {"data": "foo", "field": "value"}, "range": [{"signal": "bandwidth('continentScale')"}, 0]}
   ],
   "axes": [
   ],
@@ -63,10 +65,10 @@
       },
       "encode": {
         "enter": {
-          "x": {"signal": "scale('genderScale', datum.gender) + pad"},
-          "y": {"signal": "scale('continentScale', datum.continent) - pad"},
-          "width": {"signal": "cellWidth"},
-          "height": {"signal": "cellHeight"},
+          "x": {"signal": "scale('genderScale', datum.gender)"},
+          "y": {"signal": "scale('continentScale', datum.continent)"},
+          "width": {"signal": "bandwidth('genderScale')"},
+          "height": {"signal": "bandwidth('continentScale')"},
           "fill": {"value": "beige"}
         }
       },
@@ -78,7 +80,7 @@
             "enter": {
               "x": {"scale": "xscale", "field": "orderdate"},
               "y": {"scale": "yscale", "field": "value"},
-              "y2": {"signal": "cellHeight"}
+              "y2": {"signal": "bandwidth('continentScale')"}
             }
           }
         }
