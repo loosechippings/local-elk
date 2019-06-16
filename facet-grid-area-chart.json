@@ -114,6 +114,7 @@
           "groupby": ["gender", "continent"]
         }
       },
+      "title": {"text": {"signal": "parent['gender'] + ' - '+ parent['continent']"}, "style": "guide-label"},
       "encode": {
         "enter": {
           "width": {"signal": "bandwidth('genderScale')"},
