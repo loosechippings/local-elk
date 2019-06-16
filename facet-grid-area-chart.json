@@ -5,6 +5,7 @@
       "name": "foo",
       "url": {
         "%timefield%": "order_date",
+        "%context%": true,
         "index": "kibana_sample_data_ecommerce",
         "body": {
             "aggs": {
@@ -74,7 +75,7 @@
   ],
   "axes": [
   ],
-  "layout": {"padding": 20, "bounds": "full", "align": "all", "columns": 2},
+  "layout": {"padding": 20, "bounds": "full", "align": "all", "columns": {"signal": "length(data('gender'))"}},
   "marks": [
     {
       "type": "group",
