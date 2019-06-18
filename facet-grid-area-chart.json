@@ -56,7 +56,7 @@
       "source": "foo",
       "transform": [
         {
-          "type": "aggregate",
+            "type": "aggregate",
           "groupby": ["continent"]
         }
       ]
@@ -75,7 +75,7 @@
   ],
   "axes": [
   ],
-  "layout": {"padding": 20, "bounds": "full", "align": "all", "columns": {"signal": "length(data('gender'))"}},
+  "layout": {"padding": 5, "bounds": "full", "align": "all", "columns": {"signal": "length(data('gender'))"}},
   "marks": [
     {
       "type": "group",
@@ -102,11 +102,12 @@
         }
       },
       "axes": [
-        {"scale": "yscale", "orient": "left", "labelOverlap": "true"}
+        {"scale": "yscale", "orient": "left", "labelOverlap": "true", "grid": true}
       ]
     },
     {
       "type": "group",
+      "sort": {"field": "datum.continent"}
       "from": {
           "facet": {
           "name": "g",
@@ -118,8 +119,7 @@
       "encode": {
         "enter": {
           "width": {"signal": "bandwidth('genderScale')"},
-          "height": {"signal": "bandwidth('continentScale')"},
-          "fill": {"value": "pink"}
+          "height": {"signal": "bandwidth('continentScale')"}
         }
       },
       "signals": [
@@ -131,10 +131,11 @@
       "marks": [
         {
           "type": "area",
+          "sort": {"field": "continent"},
           "from": {"data": "g"},
           "encode": {
             "enter": {
-              "fill": {"value": "orange"},
+              "fill": {"value": "steelblue"},
               "x": {"scale": "xscale", "field": "orderdate"},
               "y": {"scale": "yscale", "field": "value"},
               "y2": {"signal": "bandwidth('continentScale')"}
