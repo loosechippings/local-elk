@@ -1,7 +1,7 @@
 version: '3'
 services:
    elastic:
-      image: elasticsearch:7.0.1
+      image: elasticsearch:7.3.0
       container_name: elasticsearch
       environment:
          discovery.type: single-node
@@ -10,11 +10,23 @@ services:
       networks:
          - esnet
    kibana:
-      image: kibana:7.0.1
+      image: kibana:7.3.0
       container_name: kibana
       ports:
          - 5601:5601
       networks:
          - esnet
+   apmserver:
+      image: docker.elastic.co/apm/apm-server:7.4.0
+      container_name: apm-server
+      networks:
+         - esnet
+      environment:
+         output.elasticsearch.hosts: elasticsearch:9200
+      volumes:
+         - ${PWD}/apm-server-docker.yml:/usr/share/apm-server/apm-server.yml:ro
+      command: --strict.perms=false
+      ports:
+         - 8200:8200
 networks:
    esnet:
