@@ -16,6 +16,13 @@ services:
          - 5601:5601
       networks:
          - esnet
+   metricbeat:
+      image: docker.elastic.co/beats/metricbeat:7.3.0
+      networks:
+         - esnet
+      container_name: metricbeat
+      environment:
+         output.elasticsearch.hosts: elasticsearch:9200
    apmserver:
       image: docker.elastic.co/apm/apm-server:7.4.0
       container_name: apm-server
