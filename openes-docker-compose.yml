@@ -1,0 +1,23 @@
+version: '3'
+services:
+   elastic:
+      image: amazon/opendistro-for-elasticsearch:1.2.0
+      container_name: elasticsearch
+      environment:
+         discovery.type: single-node
+      ports:
+         - 9200:9200
+      networks:
+         - esnet
+   kibana:
+      image: amazon/opendistro-for-elasticsearch-kibana:1.2.0
+      container_name: kibana
+      ports:
+         - 5601:5601
+      networks:
+         - esnet
+      environment:
+         ELASTICSEARCH_URL: https://elasticsearch:9200
+         ELASTICSEARCH_HOSTS: https://elasticsearch:9200
+networks:
+   esnet:
